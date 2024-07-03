@@ -5,11 +5,11 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
-
 nltk.download("punkt")
 nltk.download("stopwords")
 nltk.download("wordnet")
 nltk.download("omw-1.4")
+
 
 class TextPreprocessor:
     def __init__(self):
@@ -21,9 +21,7 @@ class TextPreprocessor:
             preprocessed_sentences = []
 
             for sentence in sentences:
-
                 words = word_tokenize(sentence)
-
 
                 filtered_words = [
                     self.lemmatizer.lemmatize(word.lower())
@@ -31,12 +29,10 @@ class TextPreprocessor:
                     if word.lower() not in self.stop_words and word.isalpha()
                 ]
 
-
                 preprocessed_sentence = " ".join(filtered_words)
                 preprocessed_sentences.append(preprocessed_sentence)
 
             return preprocessed_sentences
-
 
         preprocessed_documents = preprocess_text(documents)
         return preprocessed_documents
