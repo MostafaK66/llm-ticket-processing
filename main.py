@@ -7,7 +7,7 @@ from knowledge_graph_rag import settings
 def main():
     text_preprocessor = TextPreprocessor()
 
-    preprocessed_documents = text_preprocessor.remove_stop_words_from_and_lemmatise_documents(settings.documents)
+    preprocessed_documents = text_preprocessor.remove_stop_words_from_and_lemmatise_tickets(settings.tickets)
 
     for doc in preprocessed_documents:
         print(doc)

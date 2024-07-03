@@ -1,4 +1,4 @@
-documents = [
+tickets = [
     "Ticket ID: 101, Issue: Unable to connect to the company VPN, Solution: Restart the VPN client and ensure the network settings are correctly configured.",
     "Ticket ID: 102, Issue: Email not syncing on mobile device, Solution: Remove the email account from the device and add it again, ensuring the correct server settings are used.",
     "Ticket ID: 103, Issue: Application crashes on startup, Solution: Update the application to the latest version and clear the cache.",

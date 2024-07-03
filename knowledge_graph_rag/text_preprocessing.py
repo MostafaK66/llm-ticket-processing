@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-import re
+
 
 nltk.download("punkt")
 nltk.download("stopwords")
@@ -58,5 +58,5 @@ class TextPreprocessor:
             return f"{ticket_id}, {issue_part} {solution_part}"
         return f"{issue_part} {solution_part}"
 
-    def remove_stop_words_from_and_lemmatise_documents(self, documents):
-        return [self.preprocess_text(doc) for doc in documents]
+    def remove_stop_words_from_and_lemmatise_tickets(self, tickets):
+        return [self.preprocess_text(doc) for doc in tickets]
