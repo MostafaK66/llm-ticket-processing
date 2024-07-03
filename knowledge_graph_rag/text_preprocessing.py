@@ -1,15 +1,15 @@
-# text_preprocessing.py
+
 
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+
 nltk.download("punkt")
 nltk.download("stopwords")
 nltk.download("wordnet")
 nltk.download("omw-1.4")
-
 
 class TextPreprocessor:
     def __init__(self):
@@ -21,7 +21,12 @@ class TextPreprocessor:
             preprocessed_sentences = []
 
             for sentence in sentences:
-                words = word_tokenize(sentence)
+
+                parts = sentence.split(", ")
+                ticket_id = parts[0] if parts[0].lower().startswith("ticket id") else ""
+                remaining_text = ", ".join(parts[1:]) if ticket_id else sentence
+
+                words = word_tokenize(remaining_text)
 
                 filtered_words = [
                     self.lemmatizer.lemmatize(word.lower())
@@ -29,7 +34,8 @@ class TextPreprocessor:
                     if word.lower() not in self.stop_words and word.isalpha()
                 ]
 
-                preprocessed_sentence = " ".join(filtered_words)
+
+                preprocessed_sentence = f"{ticket_id}, " + " ".join(filtered_words) if ticket_id else " ".join(filtered_words)
                 preprocessed_sentences.append(preprocessed_sentence)
 
             return preprocessed_sentences
