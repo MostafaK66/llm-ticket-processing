@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 from knowledge_graph_rag.ticket_preprocessing import TextPreprocessor
+import os
 
 
 class TicketsGraph:
@@ -36,7 +37,7 @@ class TicketsGraph:
 
         return G
 
-    def plot_ticket_graph(self):
+    def plot_ticket_graph(self, output_path="outputs/ticket_graph.png"):
         pos = nx.spring_layout(self.G)
 
         plt.figure(figsize=(12, 8))
@@ -71,4 +72,6 @@ class TicketsGraph:
             )
 
         plt.axis("off")
-        plt.show()
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        plt.savefig(output_path)
+        plt.close()
