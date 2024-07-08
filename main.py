@@ -10,6 +10,7 @@ def main():
 
     preprocessed_tickets = text_preprocessor.remove_stop_words_from_and_lemmatise_tickets(settings.tickets)
     ticket_graph = TicketsGraph(settings.tickets)
+    ticket_graph.plot_ticket_graph()
 
     for doc in preprocessed_tickets:
         print(doc)
