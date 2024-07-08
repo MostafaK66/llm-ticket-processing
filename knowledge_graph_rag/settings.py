@@ -15,3 +15,4 @@ tickets = [
     "Ticket ID: 114, Issue: User account locked out, Solution: Unlock the account using the admin tool and ensure the user understands the login attempt limits.",
     "Ticket ID: 115, Issue: Backup process failing, Solution: Check the backup log for errors, ensure there is enough disk space, and verify the backup schedule and settings."
 ]
+OUTPUT_PASS_PLOTTING="outputs/ticket_graph.png"

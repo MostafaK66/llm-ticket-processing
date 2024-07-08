@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from knowledge_graph_rag.ticket_preprocessing import TextPreprocessor
 import os
 
-
 class TicketsGraph:
     def __init__(self, tickets) -> None:
         self.tickets = tickets
@@ -37,7 +36,7 @@ class TicketsGraph:
 
         return G
 
-    def plot_ticket_graph(self, output_path="outputs/ticket_graph.png"):
+    def plot_ticket_graph(self, output_path):
         pos = nx.spring_layout(self.G)
 
         plt.figure(figsize=(12, 8))
@@ -72,6 +71,7 @@ class TicketsGraph:
             )
 
         plt.axis("off")
+
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         plt.savefig(output_path)
         plt.close()
