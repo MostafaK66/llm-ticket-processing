@@ -16,3 +16,5 @@ tickets = [
     "Ticket ID: 115, Issue: Backup process failing, Solution: Check the backup log for errors, ensure there is enough disk space, and verify the backup schedule and settings."
 ]
 OUTPUT_PASS_PLOTTING="outputs/ticket_graph.png"
+
+

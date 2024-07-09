@@ -35,3 +35,28 @@ class TicketsGraph:
                     G.add_edge(i, j, weight=weight)
 
         return G
+
+    def find_connected_documents(self, input_sentence, N=3):
+
+        input_sentence = self.preprocessor.preprocess_text(input_sentence)
+
+        node_index = None
+        for node, data in self.G.nodes(data=True):
+            if data["label"] == input_sentence:
+                node_index = node
+                break
+
+        if node_index is None:
+            raise ValueError("The provided sentence is not in the graph.")
+
+        neighbors = [
+            (neighbor, self.G[node_index][neighbor]["weight"])
+            for neighbor in self.G.neighbors(node_index)
+        ]
+
+        neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
+
+        return [
+            {"ticket": self.G.nodes[neighbor]["label"]}
+            for neighbor, weight in neighbors[:N]
+        ]
