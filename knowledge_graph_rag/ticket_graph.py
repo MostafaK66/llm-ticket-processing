@@ -55,8 +55,12 @@ class TicketsGraph:
         ]
 
         neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
+        # print(f"Sorted neighbors: {neighbors}")
 
-        return [
+        top_neighbors = [
             {"ticket": self.G.nodes[neighbor]["label"]}
-            for neighbor, weight in neighbors[:N]
+            for neighbor, weight in neighbors[:]
         ]
+        # print(f"Top neighbors: {top_neighbors}")
+
+        return top_neighbors

@@ -13,7 +13,8 @@ tickets = [
     "Ticket ID: 112, Issue: Unable to send emails from the desktop client, Solution: Check the outgoing mail server settings and ensure the port and security settings are correct.",
     "Ticket ID: 113, Issue: System running out of memory, Solution: Increase the virtual memory size and close unnecessary background applications.",
     "Ticket ID: 114, Issue: User account locked out, Solution: Unlock the account using the admin tool and ensure the user understands the login attempt limits.",
-    "Ticket ID: 115, Issue: Backup process failing, Solution: Check the backup log for errors, ensure there is enough disk space, and verify the backup schedule and settings."
+    "Ticket ID: 115, Issue: Backup process failing, Solution: Check the backup log for errors, ensure there is enough disk space, and verify the backup schedule and settings.",
+    "Ticket ID: 116, Issue: Printer not responding, Solution: Check the printer connections and restart the print spooler service.",
 ]
 OUTPUT_PASS_PLOTTING="outputs/ticket_graph.png"
 

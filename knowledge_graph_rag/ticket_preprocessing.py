@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-
+import re
 
 nltk.download("punkt")
 nltk.download("stopwords")
@@ -12,14 +12,19 @@ nltk.download("omw-1.4")
 
 class TextPreprocessor:
     def __init__(self):
-        self.stop_words = set(stopwords.words("english"))
+        custom_stop_words = set(stopwords.words("english"))
+        important_words = {"not", "down", "up", "in", "out", "off", "on", "over", "under"}
+        self.stop_words = custom_stop_words - important_words
         self.lemmatizer = WordNetLemmatizer()
 
     def preprocess_text(self, sentence):
-        parts = sentence.split(", ")
-        ticket_id = parts[0] if parts[0].lower().startswith("ticket id") else ""
+        ticket_id_match = re.search(r"Ticket ID: (\d+)", sentence, re.IGNORECASE)
+        issue_match = re.search(r"Issue: (.*?)(?=, Solution:|$)", sentence, re.IGNORECASE)
+        solution_match = re.search(r"Solution: (.*)", sentence, re.IGNORECASE)
 
-        issue_text, solution_text = self.extract_issue_and_solution(parts)
+        ticket_id = ticket_id_match[0] if ticket_id_match else ""
+        issue_text = issue_match[1] if issue_match else ""
+        solution_text = solution_match[1] if solution_match else ""
 
         filtered_issue_words = self.filter_and_lemmatize(issue_text)
         filtered_solution_words = self.filter_and_lemmatize(solution_text)
@@ -27,18 +32,6 @@ class TextPreprocessor:
         return self.construct_preprocessed_sentence(
             ticket_id, filtered_issue_words, filtered_solution_words
         )
-
-    def extract_issue_and_solution(self, parts):
-        issue_text = ""
-        solution_text = ""
-
-        for part in parts[1:]:
-            if part.lower().startswith("issue:"):
-                issue_text = part[7:]
-            elif part.lower().startswith("solution:"):
-                solution_text = part[10:]
-
-        return issue_text, solution_text
 
     def filter_and_lemmatize(self, text):
         words = word_tokenize(text)
@@ -52,10 +45,11 @@ class TextPreprocessor:
         return any(char.isalpha() for char in word) and word.lower() not in self.stop_words
 
     def construct_preprocessed_sentence(self, ticket_id, issue_words, solution_words):
-        issue_part = "issue: " + " ".join(issue_words)
-        solution_part = "solution: " + " ".join(solution_words)
-        if ticket_id:
-            return f"{ticket_id}, {issue_part} {solution_part}"
+        issue_part = "issue " + " ".join(issue_words)
+        solution_part = "solution " + " ".join(solution_words)
+        ticket_id_part = "Ticket ID" if ticket_id else ""
+        if ticket_id_part:
+            return f"{ticket_id_part}, {issue_part} {solution_part}"
         return f"{issue_part} {solution_part}"
 
     def remove_stop_words_from_and_lemmatise_tickets(self, tickets):
