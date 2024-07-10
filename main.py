@@ -13,7 +13,7 @@ def main():
     ticket_graph = TicketsGraph(tickets=settings.TICKETS)
     plotter.plot_ticket_graph(graph=ticket_graph.G, output_path=settings.OUTPUT_PASS_PLOTTING)
     input_sentence = "Ticket ID: 116, Issue: Printer not responding, Solution: Check the printer connections and restart the print spooler service."
-    connected_docs = ticket_graph.find_connected_documents(input_sentence, N=3)
+    connected_docs = ticket_graph.find_connected_documents(input_sentence, n = settings.NUMBER_OF_SIMILAR_TICKETS)
     print("Connected Documents:", connected_docs)
 
     for doc in preprocessed_tickets:

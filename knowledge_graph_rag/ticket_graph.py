@@ -39,7 +39,7 @@ class TicketsGraph:
 
         return G
 
-    def find_connected_documents(self, input_sentence, N=3):
+    def find_connected_documents(self, input_sentence, n):
         #TODO: investigate the input_sentence. Currently, the input_sentence shoule be exactly like one of the tickets in the settings.TICKETS list.
         # input_sentence = self.preprocessor.preprocess_text(input_sentence)
 
@@ -62,7 +62,7 @@ class TicketsGraph:
 
         top_neighbors = [
             {"ticket": self.G.nodes[neighbor]["label"]}
-            for neighbor, weight in neighbors[:N]
+            for neighbor, weight in neighbors[:n]
         ]
         print(f"Top neighbors: {top_neighbors}")
 

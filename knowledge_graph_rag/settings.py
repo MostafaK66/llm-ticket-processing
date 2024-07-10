@@ -17,5 +17,6 @@ TICKETS = [
     "Ticket ID: 116, Issue: Printer not responding, Solution: Check the printer connections and restart the print spooler service.",
 ]
 OUTPUT_PASS_PLOTTING="outputs/ticket_graph.png"
+NUMBER_OF_SIMILAR_TICKETS = 3
 
 
