@@ -14,9 +14,12 @@ class TicketsGraph:
 
     def calculate_tfidf_matrix(self):
         vectorizer = TfidfVectorizer()
+        c = self.preprocessed_tickets
+        b = vectorizer.fit_transform(self.preprocessed_tickets)
         return vectorizer.fit_transform(self.preprocessed_tickets)
 
     def calculate_cosine_similarity(self, tfidf_matrix):
+        a = cosine_similarity(tfidf_matrix)
         return cosine_similarity(tfidf_matrix)
 
     def create_graph(self):
@@ -37,8 +40,8 @@ class TicketsGraph:
         return G
 
     def find_connected_documents(self, input_sentence, N=3):
-
-        input_sentence = self.preprocessor.preprocess_text(input_sentence)
+        #TODO: investigate the input_sentence. Currently, the input_sentence shoule be exactly like one of the tickets in the settings.TICKETS list.
+        # input_sentence = self.preprocessor.preprocess_text(input_sentence)
 
         node_index = None
         for node, data in self.G.nodes(data=True):
@@ -55,12 +58,12 @@ class TicketsGraph:
         ]
 
         neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
-        # print(f"Sorted neighbors: {neighbors}")
+        print(f"Sorted neighbors: {neighbors}")
 
         top_neighbors = [
             {"ticket": self.G.nodes[neighbor]["label"]}
-            for neighbor, weight in neighbors[:]
+            for neighbor, weight in neighbors[:N]
         ]
-        # print(f"Top neighbors: {top_neighbors}")
+        print(f"Top neighbors: {top_neighbors}")
 
         return top_neighbors
