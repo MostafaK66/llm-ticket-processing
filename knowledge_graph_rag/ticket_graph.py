@@ -1,6 +1,7 @@
 import networkx as nx
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 from knowledge_graph_rag.ticket_preprocessing import TextPreprocessor
 
@@ -76,5 +77,14 @@ class TicketsGraph:
         tfidf_matrix = vectorizer.fit_transform(all_tickets)
         cosine_sim = cosine_similarity(tfidf_matrix)
         similarity_scores = cosine_sim[-1, :-1]
+        closest_indices = np.argsort(similarity_scores)[-n:][::-1]
 
-        return similarity_scores
+        closest_tickets = [
+            (self.preprocessed_tickets[idx], similarity_scores[idx])
+            for idx in closest_indices
+            if similarity_scores[idx] > 0
+        ]
+
+
+
+        return closest_tickets
