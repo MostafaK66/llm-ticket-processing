@@ -67,3 +67,14 @@ class TicketsGraph:
         print(f"Top neighbors: {top_neighbors}")
 
         return top_neighbors
+
+    def find_n_similar_tickets(self, input_sentence, n):
+        input_sentence = self.preprocessor.preprocess_text(input_sentence)
+
+        all_tickets = self.preprocessed_tickets + [input_sentence]
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform(all_tickets)
+        cosine_sim = cosine_similarity(tfidf_matrix)
+        similarity_scores = cosine_sim[-1, :-1]
+
+        return similarity_scores
