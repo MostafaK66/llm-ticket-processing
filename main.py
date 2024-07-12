@@ -1,4 +1,3 @@
-from knowledge_graph_rag.ticket_preprocessing import TextPreprocessor
 from knowledge_graph_rag import settings
 from knowledge_graph_rag.ticket_graph import TicketsGraph
 from knowledge_graph_rag.plotting import Plotter
