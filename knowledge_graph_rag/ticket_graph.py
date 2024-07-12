@@ -15,12 +15,9 @@ class TicketsGraph:
 
     def calculate_tfidf_matrix(self):
         vectorizer = TfidfVectorizer()
-        c = self.preprocessed_tickets
-        b = vectorizer.fit_transform(self.preprocessed_tickets)
         return vectorizer.fit_transform(self.preprocessed_tickets)
 
     def calculate_cosine_similarity(self, tfidf_matrix):
-        a = cosine_similarity(tfidf_matrix)
         return cosine_similarity(tfidf_matrix)
 
     def create_graph(self):
@@ -40,35 +37,6 @@ class TicketsGraph:
 
         return G
 
-    def find_connected_documents(self, input_sentence, n):
-        #TODO: investigate the input_sentence. Currently, the input_sentence shoule be exactly like one of the tickets in the settings.TICKETS list.
-        # input_sentence = self.preprocessor.preprocess_text(input_sentence)
-
-        node_index = None
-        for node, data in self.G.nodes(data=True):
-            if data["label"] == input_sentence:
-                node_index = node
-                break
-
-        if node_index is None:
-            raise ValueError("The provided sentence is not in the graph.")
-
-        neighbors = [
-            (neighbor, self.G[node_index][neighbor]["weight"])
-            for neighbor in self.G.neighbors(node_index)
-        ]
-
-        neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
-        print(f"Sorted neighbors: {neighbors}")
-
-        top_neighbors = [
-            {"ticket": self.G.nodes[neighbor]["label"]}
-            for neighbor, weight in neighbors[:n]
-        ]
-        print(f"Top neighbors: {top_neighbors}")
-
-        return top_neighbors
-
     def find_n_similar_tickets(self, input_sentence, n):
         input_sentence = self.preprocessor.preprocess_text(input_sentence)
 
@@ -79,12 +47,8 @@ class TicketsGraph:
         similarity_scores = cosine_sim[-1, :-1]
         closest_indices = np.argsort(similarity_scores)[-n:][::-1]
 
-        closest_tickets = [
+        return [
             (self.preprocessed_tickets[idx], similarity_scores[idx])
             for idx in closest_indices
             if similarity_scores[idx] > 0
         ]
-
-
-
-        return closest_tickets
