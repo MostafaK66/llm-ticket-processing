@@ -1,3 +1,6 @@
+OPENAI_API_KEY = "sk-proj-Od6oqIrNFPtjfQHTfdLnT3BlbkFJBBN4Gnusmfe9B3283RFi"
+TRANSFORMER_MODEL = "text-embedding-ada-002"
+
 TICKETS = [
     "Ticket ID: 101, Issue: Unable to connect to the company VPN, Solution: Restart the VPN client and ensure the network settings are correctly configured.",
     "Ticket ID: 102, Issue: Email not syncing on mobile device, Solution: Remove the email account from the device and add it again, ensuring the correct server settings are used.",
