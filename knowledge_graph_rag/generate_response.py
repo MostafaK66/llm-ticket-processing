@@ -1,6 +1,7 @@
 import os
 import openai
 import certifi
+import chromadb
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
@@ -19,4 +20,16 @@ class ResponseGenerator:
 
     def generate_vectors_collection(self, tickets):
         embeddings = self.get_embedding_batch(tickets)
-        return [{ticket: embedding} for ticket, embedding in zip(tickets, embeddings)]
+        vectors_collection = [{ticket: embedding} for ticket, embedding in zip(tickets, embeddings)]
+        return embeddings, vectors_collection
+
+    def store_vectors_in_db(self, embeddings, tickets, vectordb_name="cvd_vectors"):
+        client = chromadb.PersistentClient(path=vectordb_name)
+        collection = client.create_collection(vectordb_name)
+
+        collection.add(
+            embeddings=embeddings,
+            documents=tickets,
+            metadatas=[{"source": ""} for _ in range(len(tickets))],
+            ids=list(map(str, range(len(tickets))))
+        )
