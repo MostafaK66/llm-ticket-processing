@@ -25,6 +25,7 @@ class ResponseGenerator:
 
     def store_vectors_in_db(self, embeddings, tickets, vectordb_name="cvd_vectors"):
         client = chromadb.PersistentClient(path=vectordb_name)
+        client.delete_collection("cvd_vectors")
         collection = client.create_collection(vectordb_name)
 
         collection.add(
@@ -33,3 +34,4 @@ class ResponseGenerator:
             metadatas=[{"source": ""} for _ in range(len(tickets))],
             ids=list(map(str, range(len(tickets))))
         )
+
