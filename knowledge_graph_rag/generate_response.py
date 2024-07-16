@@ -19,5 +19,4 @@ class ResponseGenerator:
 
     def generate_vectors_collection(self, tickets):
         embeddings = self.get_embedding_batch(tickets)
-        vectors_collection = [{ticket: embedding} for ticket, embedding in zip(tickets, embeddings)]
-        return vectors_collection
+        return [{ticket: embedding} for ticket, embedding in zip(tickets, embeddings)]
