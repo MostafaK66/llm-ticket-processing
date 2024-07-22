@@ -63,7 +63,8 @@ class ResponseGenerator:
         client = chromadb.PersistentClient(path=vectordb_name)
         collection = client.get_collection(vectordb_name)
 
-        return collection.query(query_embeddings=[query_embedding], n_results=1)[
+        return collection.query(query_embeddings=[query_embedding], n_results=3)[
             'documents'
-        ][0][0]
+        ][0]
+
 
