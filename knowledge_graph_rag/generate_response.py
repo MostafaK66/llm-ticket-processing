@@ -3,7 +3,8 @@ import openai
 import certifi
 import chromadb
 import shutil
-
+import networkx as nx
+import numpy as np
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
 
@@ -63,8 +64,31 @@ class ResponseGenerator:
         client = chromadb.PersistentClient(path=vectordb_name)
         collection = client.get_collection(vectordb_name)
 
-        return collection.query(query_embeddings=[query_embedding], n_results=3)[
-            'documents'
-        ][0]
+        query_results = collection.query(query_embeddings=[query_embedding], n_results=3)
+        documents = query_results['documents'][0]
+        scores = query_results['distances'][0]
+
+        return list(zip(documents, scores))
+
+    def create_graph(self, tickets):
+        embeddings = self.get_embedding_batch(tickets)
+        num_tickets = len(tickets)
+
+        G = nx.Graph()
+
+        for i, ticket in enumerate(tickets):
+            G.add_node(i, label=ticket)
+
+        for i in range(num_tickets):
+            for j in range(i + 1, num_tickets):
+                score = self.calculate_similarity(embeddings[i], embeddings[j])
+                if score > 0:
+                    G.add_edge(i, j, weight=score)
+
+        return G
+
+    def calculate_similarity(self, embedding1, embedding2):
+        return np.linalg.norm(np.array(embedding1) - np.array(embedding2))
+
 
 

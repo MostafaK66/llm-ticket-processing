@@ -8,19 +8,18 @@ def main():
     plotter = Plotter()
     generator = ResponseGenerator(api_key=settings.OPENAI_API_KEY, transformer_model=settings.TRANSFORMER_MODEL)
     ticket_graph = TicketsGraph(tickets=settings.TICKETS)
-    plotter.plot_ticket_graph(graph=ticket_graph.G, output_path=settings.OUTPUT_PASS_PLOTTING)
+    # plotter.plot_ticket_graph(graph=ticket_graph.G, output_path=settings.OUTPUT_PASS_PLOTTING)
+    graph = generator.create_graph(settings.TICKETS)
+    plotter.plot_ticket_graph(graph=graph, output_path=settings.OUTPUT_PASS_PLOTTING)
     input_sentence = "Ticket ID: 1188, Issue: something wrong with printer"
     out_put = ticket_graph.find_n_similar_tickets(input_sentence, n=settings.NUMBER_OF_SIMILAR_TICKETS)
     embeddings, vectors_collection = generator.generate_vectors_collection(settings.TICKETS)
 
-    # embeddings = [list(v.values())[0] for v in vectors_collection]
-    # tickets = [list(v.keys())[0] for v in vectors_collection]
     generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS, vectordb_name=settings.VECTORDB_NAME)
 
     search_results = generator.query_embedding(input_sentence=input_sentence, vectordb_name=settings.VECTORDB_NAME)
     for idx, result in enumerate(search_results):
         print(f"Search Result {idx + 1}: {result}")
-
 
 
 if __name__ == "__main__":
