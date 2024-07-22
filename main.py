@@ -9,10 +9,9 @@ def main():
     generator = ResponseGenerator(api_key=settings.OPENAI_API_KEY, transformer_model=settings.TRANSFORMER_MODEL)
     graph = generator.create_graph(tickets=settings.TICKETS)
     plotter.plot_ticket_graph(graph=graph, output_path=settings.OUTPUT_PASS_PLOTTING)
-    input_sentence = "Ticket ID: 1188, Issue: something wrong with printer"
     embeddings, vectors_collection = generator.generate_vectors_collection(settings.TICKETS)
     generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS, vectordb_name=settings.VECTORDB_NAME)
-    search_results = generator.query_embedding(input_sentence=input_sentence, vectordb_name=settings.VECTORDB_NAME)
+    search_results = generator.query_embedding(input_sentence=settings.INPUT_SENTENCE, vectordb_name=settings.VECTORDB_NAME)
     for idx, result in enumerate(search_results):
         print(f"Search Result {idx + 1}: {result}")
 
