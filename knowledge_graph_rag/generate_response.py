@@ -36,7 +36,7 @@ class ResponseGenerator:
                 except Exception as e:
                     print(f'Failed to delete {file_path}. Reason: {e}')
 
-    def store_vectors_in_db(self, embeddings, tickets, vectordb_name="cvd_vectors"):
+    def store_vectors_in_db(self, embeddings, tickets, vectordb_name):
         vectordb_path = os.path.join(vectordb_name)
 
         self.clean_directory_except_sqlite(vectordb_path)
@@ -56,4 +56,14 @@ class ResponseGenerator:
             metadatas=[{"source": ""} for _ in range(len(tickets))],
             ids=list(map(str, range(len(tickets))))
         )
+
+    def query_embedding(self, input_sentence, vectordb_name):
+        query_embedding = self.get_embedding_batch([input_sentence])[0]
+
+        client = chromadb.PersistentClient(path=vectordb_name)
+        collection = client.get_collection(vectordb_name)
+
+        return collection.query(query_embeddings=[query_embedding], n_results=1)[
+            'documents'
+        ][0][0]
 

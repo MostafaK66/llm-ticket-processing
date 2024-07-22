@@ -15,11 +15,10 @@ def main():
 
     # embeddings = [list(v.values())[0] for v in vectors_collection]
     # tickets = [list(v.keys())[0] for v in vectors_collection]
-    generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS)
+    generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS, vectordb_name=settings.VECTORDB_NAME)
 
-
-    for vector in vectors_collection:
-        print(len(list(vector.values())[0]))
+    search_result = generator.query_embedding(input_sentence=input_sentence, vectordb_name=settings.VECTORDB_NAME)
+    print(f"Search Result: {search_result}")
 
 
 
