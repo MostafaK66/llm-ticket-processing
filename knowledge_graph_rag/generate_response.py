@@ -5,6 +5,7 @@ import chromadb
 import shutil
 import networkx as nx
 import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
 
@@ -88,7 +89,11 @@ class ResponseGenerator:
         return G
 
     def calculate_similarity(self, embedding1, embedding2):
-        return np.linalg.norm(np.array(embedding1) - np.array(embedding2))
+        embedding1 = np.array(embedding1).reshape(1, -1)
+        embedding2 = np.array(embedding2).reshape(1, -1)
+        return cosine_similarity(embedding1, embedding2)[0][0]
+
+
 
 
 
