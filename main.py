@@ -1,5 +1,4 @@
 from knowledge_graph_rag import settings
-# from knowledge_graph_rag.ticket_graph import TicketsGraph
 from knowledge_graph_rag.plotting import Plotter
 from knowledge_graph_rag.generate_response import ResponseGenerator
 
