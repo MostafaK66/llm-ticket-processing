@@ -20,5 +20,5 @@ TICKETS = [
     "Ticket ID: 115, Issue: Backup process failing, Solution: Check the backup log for errors, ensure there is enough disk space, and verify the backup schedule and settings.",
     "Ticket ID: 116, Issue: Printer not responding, Solution: Check the printer connections and restart the print spooler service.",
 ]
-OUTPUT_PASS_PLOTTING="outputs/ticket_graph.png"
+OUTPUT_PASS_PLOTTING = "outputs/ticket_graph.png"
 NUMBER_OF_SIMILAR_TICKETS = 3
