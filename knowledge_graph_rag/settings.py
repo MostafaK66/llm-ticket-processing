@@ -1,4 +1,3 @@
-OPENAI_API_KEY = "sk-proj-Od6oqIrNFPtjfQHTfdLnT3BlbkFJBBN4Gnusmfe9B3283RFi"
 TRANSFORMER_MODEL = "text-embedding-ada-002"
 VECTORDB_NAME = "cvd_vectors"
 INPUT_SENTENCE = "Ticket ID: 1188, Issue: something wrong with printer"

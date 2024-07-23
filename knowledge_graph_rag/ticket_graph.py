@@ -11,8 +11,8 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 
 class ResponseGenerator:
     def __init__(self, api_key, transformer_model):
-        openai.api_key = api_key
         self.transformer_model = transformer_model
+        openai.api_key = api_key
 
     def get_embedding_batch(self, input_array):
         response = openai.Embedding.create(
