@@ -1,25 +1,35 @@
 import os
-import openai
 import certifi
 import chromadb
 import shutil
 import networkx as nx
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from dotenv import load_dotenv
+from openai import OpenAI
+import requests
+import openai
+
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
 
 class ResponseGenerator:
-    def __init__(self, api_key, transformer_model):
+    def __init__(self, transformer_model):
         self.transformer_model = transformer_model
-        openai.api_key = api_key
+        self.client = OpenAI(api_key=api_key)
 
     def get_embedding_batch(self, input_array):
-        response = openai.Embedding.create(
+        session = requests.Session()
+        session.verify = False
+        openai.api_key = api_key
+        openai.requestssession = session
+        response = self.client.embeddings.create(
             input=input_array,
             model=self.transformer_model
         )
-        return [data['embedding'] for data in response['data']]
+        return [data['embedding'] for data in response['data']]  # Adjusted to parse the response correctly
 
     def generate_vectors_collection(self, tickets):
         embeddings = self.get_embedding_batch(tickets)
@@ -92,6 +102,8 @@ class ResponseGenerator:
         embedding1 = np.array(embedding1).reshape(1, -1)
         embedding2 = np.array(embedding2).reshape(1, -1)
         return cosine_similarity(embedding1, embedding2)[0][0]
+
+
 
 
 
