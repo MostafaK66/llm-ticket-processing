@@ -1,6 +1,20 @@
 from knowledge_graph_rag import settings
 from knowledge_graph_rag.plotting import Plotter
 from knowledge_graph_rag.ticket_graph import ResponseGenerator
+import os
+from dotenv import load_dotenv
+import certifi
+
+# Load environment variables from the .env file
+load_dotenv()
+
+# Set the REQUESTS_CA_BUNDLE environment variable
+os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+
+# Ensure the OPENAI_API_KEY environment variable is set
+api_key = os.getenv('OPENAI_API_KEY')
+if not api_key:
+    raise ValueError("API key is not set. Please ensure the .env file contains the 'OPENAI_API_KEY' variable.")
 
 def main():
     plotter = Plotter()
