@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import requests
 import openai
+os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 load_dotenv()
