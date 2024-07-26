@@ -32,6 +32,8 @@ def main():
     knowledge_representations = kg_generator.create_knowledge_representations(tickets=settings.TICKETS)
     print("Knowledge Graph Representations:")
     print(knowledge_representations)
+    kn_graph = kg_generator.create_knowledge_graph_from_representations(representations=knowledge_representations)
+    print(kn_graph)
 
 
 if __name__ == "__main__":
