@@ -19,7 +19,7 @@ class KnowledgeGraphGenerator:
             # Debugging: Print the raw response
             print(f"Raw response: {response}")
 
-            # Ensure the response is lowercased and trailing commas are removed
+            # Ensure the response is lowercased and trailing commas are remove
             response = response.lower()
             response = self.clean_response(response)
 
