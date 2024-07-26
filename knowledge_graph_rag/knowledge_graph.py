@@ -16,12 +16,10 @@ class KnowledgeGraphGenerator:
 
             response = llm_call(messages=messages)
 
-            print(f"Raw response: {response}")
-
             response = response.lower()
             response = self.clean_response(response)
 
-            print(f"Cleaned response: {response}")
+            # print(f"Cleaned response: {response}")
 
             try:
 
