@@ -9,11 +9,13 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import requests
 import openai
+
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
+
 
 class ResponseGenerator:
     def __init__(self, transformer_model):
@@ -29,7 +31,8 @@ class ResponseGenerator:
             input=input_array,
             model=self.transformer_model
         )
-        return [data['embedding'] for data in response['data']]  # Adjusted to parse the response correctly
+        embeddings = [data.embedding for data in response.data]
+        return embeddings
 
     def generate_vectors_collection(self, tickets):
         embeddings = self.get_embedding_batch(tickets)
@@ -102,10 +105,3 @@ class ResponseGenerator:
         embedding1 = np.array(embedding1).reshape(1, -1)
         embedding2 = np.array(embedding2).reshape(1, -1)
         return cosine_similarity(embedding1, embedding2)[0][0]
-
-
-
-
-
-
-
