@@ -9,7 +9,7 @@ from collections import deque
 
 class KnowledgeGraphGenerator:
     def __init__(self):
-        self.G = None  # Initialize the graph attribute
+        self.G = None
 
     def create_knowledge_representations(self, tickets):
         knowledge_representations_of_individual_tickets = []
@@ -60,7 +60,7 @@ class KnowledgeGraphGenerator:
                         relationship = conn["relationship"]
                         add_edge(source, target, relationship)
 
-        self.G = G  # Set the graph attribute
+        self.G = G
         return G
 
     def search_ticket(self, input_ticket, max_depth=3):
