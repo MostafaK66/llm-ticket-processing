@@ -30,10 +30,13 @@ def main():
     # Generate knowledge representations
     kg_generator = KnowledgeGraphGenerator()
     knowledge_representations = kg_generator.create_knowledge_representations(tickets=settings.TICKETS)
-    print("Knowledge Graph Representations:")
-    print(knowledge_representations)
+    # print("Knowledge Graph Representations:")
+    # print(knowledge_representations)
     kn_graph = kg_generator.create_knowledge_graph_from_representations(representations=knowledge_representations)
     plotter.plot_kn_graph(graph=kn_graph, output_path="outputs/kn_graph.png")
+    search_result = kg_generator.search_ticket(input_ticket=settings.INPUT_SENTENCE, max_depth=3)
+    print("Search Result:")
+    print(search_result)
 
 
 if __name__ == "__main__":
