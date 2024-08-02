@@ -24,8 +24,8 @@ def main():
     generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS, vectordb_name=settings.VECTORDB_NAME)
     search_results = generator.query_embedding(input_sentence=settings.INPUT_SENTENCE,
                                                vectordb_name=settings.VECTORDB_NAME)
-    # for idx, result in enumerate(search_results):
-    #     print(f"Search Result {idx + 1}: {result}")
+    for idx, result in enumerate(search_results):
+        print(f"Search Result {idx + 1}: {result}")
 
     # Generate knowledge representations
     kg_generator = KnowledgeGraphGenerator()
