@@ -62,11 +62,11 @@ def main():
     plotter = Plotter()
     generator = ResponseGenerator(transformer_model=settings.TRANSFORMER_MODEL)
     kg_generator = KnowledgeGraphGenerator()
+    graph = generator.create_graph(tickets=settings.TICKETS)
+    plotter.plot_ticket_graph(graph=graph, output_path=settings.OUTPUT_PASS_PLOTTING)
 
-    # Generate knowledge representations
     knowledge_representations = kg_generator.create_knowledge_representations(tickets=settings.TICKETS)
-    print("Knowledge Graph Representations:")
-    print(knowledge_representations)
+
     kn_graph = kg_generator.create_knowledge_graph_from_representations(representations=knowledge_representations)
 
     # Generate and integrate embeddings
