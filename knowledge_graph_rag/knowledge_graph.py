@@ -85,7 +85,6 @@ class KnowledgeGraphGenerator:
                     result.append(f"\nEntity: {source_entity}")
                     result.extend(self.bfs_traversal(source_entity, max_depth))
 
-
         result.append("\nEmbedding-based Similarity Search:")
         result.extend(self.embedding_similarity_search(input_embedding))
 
@@ -102,7 +101,6 @@ class KnowledgeGraphGenerator:
         for node, embedding in node_embeddings.items():
             similarity = cosine_similarity([input_embedding], [embedding])[0][0]
             similarities.append((node, similarity))
-
 
         similarities = sorted(similarities, key=lambda x: x[1], reverse=True)[:top_k]
 
