@@ -3,7 +3,6 @@ import re
 from collections import deque
 
 import networkx as nx
-import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from tqdm import tqdm
 
@@ -68,7 +67,7 @@ class KnowledgeGraphGenerator:
         return G
 
     def integrate_embeddings(self, tickets, embeddings):
-        # Assuming tickets correspond to the root nodes (entities) in the representations
+
         for i, ticket in enumerate(tickets):
             for node in self.G.nodes:
                 if ticket in node:
@@ -86,7 +85,7 @@ class KnowledgeGraphGenerator:
                     result.append(f"\nEntity: {source_entity}")
                     result.extend(self.bfs_traversal(source_entity, max_depth))
 
-        # Adding embedding-based similarity search
+
         result.append("\nEmbedding-based Similarity Search:")
         result.extend(self.embedding_similarity_search(input_embedding))
 
@@ -104,7 +103,7 @@ class KnowledgeGraphGenerator:
             similarity = cosine_similarity([input_embedding], [embedding])[0][0]
             similarities.append((node, similarity))
 
-        # Sort by similarity
+
         similarities = sorted(similarities, key=lambda x: x[1], reverse=True)[:top_k]
 
         return [
