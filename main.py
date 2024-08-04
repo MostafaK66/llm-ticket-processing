@@ -64,13 +64,15 @@ def main():
     kg_generator = KnowledgeGraphGenerator()
     graph = generator.create_graph(tickets=settings.TICKETS)
     plotter.plot_ticket_graph(graph=graph, output_path=settings.OUTPUT_PASS_PLOTTING)
+    embeddings, vectors_collection = generator.generate_vectors_collection(settings.TICKETS)
+    generator.store_vectors_in_db(embeddings=embeddings, tickets=settings.TICKETS, vectordb_name=settings.VECTORDB_NAME)
 
     knowledge_representations = kg_generator.create_knowledge_representations(tickets=settings.TICKETS)
 
     kn_graph = kg_generator.create_knowledge_graph_from_representations(representations=knowledge_representations)
 
     # Generate and integrate embeddings
-    embeddings = generator.get_embedding_batch(settings.TICKETS)
+    # embeddings = generator.get_embedding_batch(settings.TICKETS)
     kg_generator.integrate_embeddings(settings.TICKETS, embeddings)
 
     plotter.plot_kn_graph(graph=kn_graph, output_path="outputs/kn_graph.png")
