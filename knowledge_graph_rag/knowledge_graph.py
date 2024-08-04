@@ -67,11 +67,15 @@ class KnowledgeGraphGenerator:
         return G
 
     def integrate_embeddings(self, tickets, embeddings):
-
         for i, ticket in enumerate(tickets):
+            # Extract the issue part from the ticket using regex
+            issue_match = re.search(r"Issue: (.*?), Solution:", ticket)
+            issue = issue_match.group(1) if issue_match else ticket
+            found = False
             for node in self.G.nodes:
-                if ticket in node:
+                if issue.lower() in node.lower():
                     self.G.nodes[node]["embedding"] = embeddings[i]
+                    found = True
 
     def search_ticket(self, input_ticket, input_embedding, max_depth=3):
         knowledge_representations_of_input_ticket = (
