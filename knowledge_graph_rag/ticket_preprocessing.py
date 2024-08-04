@@ -1,8 +1,9 @@
+import re
+
 import nltk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-import re
+from nltk.tokenize import word_tokenize
 
 nltk.download("punkt")
 nltk.download("stopwords")
@@ -13,13 +14,25 @@ nltk.download("omw-1.4")
 class TextPreprocessor:
     def __init__(self):
         custom_stop_words = set(stopwords.words("english"))
-        important_words = {"not", "down", "up", "in", "out", "off", "on", "over", "under"}
+        important_words = {
+            "not",
+            "down",
+            "up",
+            "in",
+            "out",
+            "off",
+            "on",
+            "over",
+            "under",
+        }
         self.stop_words = custom_stop_words - important_words
         self.lemmatizer = WordNetLemmatizer()
 
     def preprocess_text(self, sentence):
         ticket_id_match = re.search(r"Ticket ID: (\d+)", sentence, re.IGNORECASE)
-        issue_match = re.search(r"Issue: (.*?)(?=, Solution:|$)", sentence, re.IGNORECASE)
+        issue_match = re.search(
+            r"Issue: (.*?)(?=, Solution:|$)", sentence, re.IGNORECASE
+        )
         solution_match = re.search(r"Solution: (.*)", sentence, re.IGNORECASE)
 
         ticket_id = ticket_id_match[0] if ticket_id_match else ""
@@ -42,7 +55,9 @@ class TextPreprocessor:
         ]
 
     def is_valid_word(self, word):
-        return any(char.isalpha() for char in word) and word.lower() not in self.stop_words
+        return (
+            any(char.isalpha() for char in word) and word.lower() not in self.stop_words
+        )
 
     def construct_preprocessed_sentence(self, ticket_id, issue_words, solution_words):
         issue_part = "issue " + " ".join(issue_words)
@@ -54,5 +69,3 @@ class TextPreprocessor:
 
     def remove_stop_words_from_and_lemmatise_tickets(self, tickets):
         return [self.preprocess_text(doc) for doc in tickets]
-
-

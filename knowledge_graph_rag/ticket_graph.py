@@ -1,20 +1,21 @@
 import os
+import shutil
+
 import certifi
 import chromadb
-import shutil
 import networkx as nx
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+import openai
+import requests
 from dotenv import load_dotenv
 from openai import OpenAI
-import requests
-import openai
+from sklearn.metrics.pairwise import cosine_similarity
 
-os.environ['SSL_CERT_FILE'] = certifi.where()
-os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+os.environ["SSL_CERT_FILE"] = certifi.where()
+os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
 load_dotenv()
-api_key = os.getenv('OPENAI_API_KEY')
+api_key = os.getenv("OPENAI_API_KEY")
 
 
 class ResponseGenerator:
@@ -28,8 +29,7 @@ class ResponseGenerator:
         openai.api_key = api_key
         openai.requestssession = session
         response = self.client.embeddings.create(
-            input=input_array,
-            model=self.transformer_model
+            input=input_array, model=self.transformer_model
         )
         embeddings = [data.embedding for data in response.data]
         return embeddings
@@ -39,20 +39,22 @@ class ResponseGenerator:
 
     def generate_vectors_collection(self, tickets):
         embeddings = self.get_embedding_batch(tickets)
-        vectors_collection = [{ticket: embedding} for ticket, embedding in zip(tickets, embeddings)]
+        vectors_collection = [
+            {ticket: embedding} for ticket, embedding in zip(tickets, embeddings)
+        ]
         return embeddings, vectors_collection
 
     def clean_directory_except_sqlite(self, directory):
         for filename in os.listdir(directory):
             file_path = os.path.join(directory, filename)
-            if filename != 'chroma.sqlite3':
+            if filename != "chroma.sqlite3":
                 try:
                     if os.path.isfile(file_path) or os.path.islink(file_path):
                         os.unlink(file_path)
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
                 except Exception as e:
-                    print(f'Failed to delete {file_path}. Reason: {e}')
+                    print(f"Failed to delete {file_path}. Reason: {e}")
 
     def store_vectors_in_db(self, embeddings, tickets, vectordb_name):
         vectordb_path = os.path.join(vectordb_name)
@@ -64,7 +66,7 @@ class ResponseGenerator:
         try:
             client.delete_collection(vectordb_name)
         except Exception as e:
-            print(f'Failed to delete collection {vectordb_name}. Reason: {e}')
+            print(f"Failed to delete collection {vectordb_name}. Reason: {e}")
 
         collection = client.create_collection(vectordb_name)
 
@@ -72,7 +74,7 @@ class ResponseGenerator:
             embeddings=embeddings,
             documents=tickets,
             metadatas=[{"source": ""} for _ in range(len(tickets))],
-            ids=list(map(str, range(len(tickets))))
+            ids=list(map(str, range(len(tickets)))),
         )
 
     def query_embedding(self, input_sentence, vectordb_name):
@@ -81,9 +83,11 @@ class ResponseGenerator:
         client = chromadb.PersistentClient(path=vectordb_name)
         collection = client.get_collection(vectordb_name)
 
-        query_results = collection.query(query_embeddings=[query_embedding], n_results=3)
-        documents = query_results['documents'][0]
-        scores = query_results['distances'][0]
+        query_results = collection.query(
+            query_embeddings=[query_embedding], n_results=3
+        )
+        documents = query_results["documents"][0]
+        scores = query_results["distances"][0]
 
         return list(zip(documents, scores))
 

@@ -94,14 +94,16 @@
 #         return result
 
 import json
-from tqdm import tqdm
-from knowledge_graph_rag.prompt import knowledge_graph_creation_system_prompt
-from knowledge_graph_rag.llm import llm_call
 import re
-import networkx as nx
 from collections import deque
+
+import networkx as nx
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from tqdm import tqdm
+
+from knowledge_graph_rag.llm import llm_call
+from knowledge_graph_rag.prompt import knowledge_graph_creation_system_prompt
 
 
 class KnowledgeGraphGenerator:
@@ -123,7 +125,9 @@ class KnowledgeGraphGenerator:
 
             try:
                 knowledge_representation = json.loads(response)
-                knowledge_representations_of_individual_tickets.append(knowledge_representation)
+                knowledge_representations_of_individual_tickets.append(
+                    knowledge_representation
+                )
             except json.JSONDecodeError as e:
                 print(f"Failed to parse JSON. Error: {e}")
                 print(f"Problematic response: {response}")
@@ -163,7 +167,7 @@ class KnowledgeGraphGenerator:
         for i, ticket in enumerate(tickets):
             for node in self.G.nodes:
                 if ticket in node:
-                    self.G.nodes[node]['embedding'] = embeddings[i]
+                    self.G.nodes[node]["embedding"] = embeddings[i]
 
     def search_ticket(self, input_ticket, input_embedding, max_depth=3):
         knowledge_representations_of_input_ticket = (
@@ -184,8 +188,11 @@ class KnowledgeGraphGenerator:
         return "\n".join(result)
 
     def embedding_similarity_search(self, input_embedding, top_k=5):
-        node_embeddings = {node: self.G.nodes[node]['embedding'] for node in self.G.nodes if
-                           'embedding' in self.G.nodes[node]}
+        node_embeddings = {
+            node: self.G.nodes[node]["embedding"]
+            for node in self.G.nodes
+            if "embedding" in self.G.nodes[node]
+        }
         similarities = []
 
         for node, embedding in node_embeddings.items():
@@ -195,7 +202,10 @@ class KnowledgeGraphGenerator:
         # Sort by similarity
         similarities = sorted(similarities, key=lambda x: x[1], reverse=True)[:top_k]
 
-        return [f"Node {node}: Similarity {similarity:.4f}" for node, similarity in similarities]
+        return [
+            f"Node {node}: Similarity {similarity:.4f}"
+            for node, similarity in similarities
+        ]
 
     def bfs_traversal(self, start_node, max_depth):
         visited = set()
@@ -213,5 +223,3 @@ class KnowledgeGraphGenerator:
                         result.append(f"  -> {neighbor} (Relationship: {relationship})")
                         queue.append((neighbor, depth + 1))
         return result
-
-
