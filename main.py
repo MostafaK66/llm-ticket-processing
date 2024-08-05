@@ -22,7 +22,7 @@ if not api_key:
 def main():
     plotter = Plotter()
     generator = ResponseGenerator(transformer_model=settings.TRANSFORMER_MODEL)
-    kg_generator = KnowledgeGraphGenerator()
+    kg_generator = KnowledgeGraphGenerator(transformer_model=settings.TRANSFORMER_MODEL)
     graph = generator.create_graph(tickets=settings.TICKETS)
     plotter.plot_ticket_graph(graph=graph, output_path=settings.OUTPUT_PASS_PLOTTING)
     embeddings, vectors_collection = generator.generate_vectors_collection(
