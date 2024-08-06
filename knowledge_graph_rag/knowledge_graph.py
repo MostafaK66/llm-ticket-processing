@@ -75,7 +75,7 @@ class KnowledgeGraphGenerator:
 
         for i, ticket in enumerate(tickets):
             issue_match = re.search(r"Issue: (.*?), Solution:", ticket)
-            issue = issue_match.group(1) if issue_match else ticket
+            issue = issue_match[1] if issue_match else ticket
             issue_embedding = embeddings[i]
 
             best_match_node = None
@@ -103,7 +103,8 @@ class KnowledgeGraphGenerator:
                     result.extend(self.bfs_traversal(source_entity, max_depth))
 
         result.append("\nEmbedding-based Similarity Search:")
-        result.extend(self.embedding_similarity_search(input_embedding))
+        if similarity_results := self.embedding_similarity_search(input_embedding):
+            result.append(similarity_results[0])
 
         return "\n".join(result)
 
