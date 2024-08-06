@@ -69,7 +69,7 @@ class KnowledgeGraphGenerator:
         self.G = G
         return G
 
-    def integrate_embeddings(self, tickets, embeddings):
+    def integrate_embeddings(self, tickets, embeddings, similarity_limit):
         node_texts = list(self.G.nodes)
         node_embeddings = self.response_generator.get_embeddings(node_texts)
 
@@ -87,7 +87,7 @@ class KnowledgeGraphGenerator:
                     best_similarity = similarity
                     best_match_node = node
 
-            if best_match_node and best_similarity > 0.7:
+            if best_match_node and best_similarity > similarity_limit:
                 self.G.nodes[best_match_node]["embedding"] = issue_embedding
 
     def search_ticket(self, input_ticket, input_embedding, max_depth=3):

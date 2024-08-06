@@ -47,7 +47,7 @@ def main():
         representations=knowledge_representations
     )
 
-    kg_generator.integrate_embeddings(settings.TICKETS, embeddings)
+    kg_generator.integrate_embeddings(tickets=settings.TICKETS, embeddings=embeddings, similarity_limit=settings.SIMILARITY_LIMIT)
 
     plotter.plot_kn_graph(graph=kn_graph, output_path="outputs/kn_graph.png")
 
