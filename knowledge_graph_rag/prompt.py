@@ -6,6 +6,13 @@ The relationships and actions between them are represented as edges.
 Each ticket has three fields: ticket id, issue, and solution.
 In the issue field, the current problem is described, and in the solution field, the resolution to the issue is explained.
 
+For each ticket, create a knowledge graph with the following structure:
+- One entity with the name of the network component, device or service which has an issue or failing.
+- One entity with the name of the issue.
+- One entity with the name of the solution.
+- The issue should connect to the network component with the edge labeled "has_issue".
+- The network component should connect to the solution with the edge labeled "resolved_by".
+
 You will respond with a knowledge graph in the given JSON format:
 
 [
@@ -43,3 +50,4 @@ TICKETS = [
     "Ticket ID: 116, Issue: Printer not responding, Solution: Check the printer connections and restart the print spooler service."
 ]
 """
+
