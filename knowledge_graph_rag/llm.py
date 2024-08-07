@@ -7,7 +7,6 @@ def llm_call(messages):
 
 
 def detailed_solution_query(search_results):
-    # Construct the prompt for the detailed solution
     prompt = f"""
     The following are search results related to a ticket issue:
 
