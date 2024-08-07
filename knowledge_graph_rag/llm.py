@@ -1,4 +1,5 @@
 from litellm import completion
+from knowledge_graph_rag.prompt import detailed_solution_system_prompt, detailed_solution_user_prompt
 
 
 def llm_call(messages):
@@ -7,19 +8,11 @@ def llm_call(messages):
 
 
 def detailed_solution_query(search_results):
-    prompt = f"""
-    The following are search results related to a ticket issue:
-
-    {search_results}
-
-    Based on these search results, please provide a detailed and comprehensive solution for the issue.
-    """
+    user_prompt = detailed_solution_user_prompt(search_results)
 
     messages = [
-        {"role": "system",
-         "content": "You are an AI assistant specialized in providing detailed and comprehensive solutions based on provided search results."},
-        {"role": "user", "content": prompt}
+        {"role": "system", "content": detailed_solution_system_prompt},
+        {"role": "user", "content": user_prompt}
     ]
 
-    response = llm_call(messages=messages)
-    return response
+    return llm_call(messages=messages)

@@ -51,3 +51,15 @@ TICKETS = [
 ]
 """
 
+detailed_solution_system_prompt = "You are an AI assistant specialized in providing detailed and comprehensive " \
+                                  "solutions based on provided search results."
+
+
+def detailed_solution_user_prompt(search_results):
+    return f"""
+    The following are search results related to a ticket issue:
+
+    {search_results}
+
+    Based on these search results, please provide a detailed and comprehensive solution for the issue.
+    """
