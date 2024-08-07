@@ -7,6 +7,7 @@ from knowledge_graph_rag import settings
 from knowledge_graph_rag.knowledge_graph import KnowledgeGraphGenerator
 from knowledge_graph_rag.plotting import Plotter
 from knowledge_graph_rag.ticket_graph import ResponseGenerator
+from knowledge_graph_rag.llm import detailed_solution_query
 
 load_dotenv()
 
@@ -59,6 +60,10 @@ def main():
     )
     print("Search Result:")
     print(search_result_kn_graph)
+
+    detailed_solution = detailed_solution_query(search_result_kn_graph)
+    print("Detailed Solution:")
+    print(detailed_solution)
 
 
 if __name__ == "__main__":
