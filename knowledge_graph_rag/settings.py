@@ -3,7 +3,7 @@ VECTORDB_NAME = "cvd_vectors"
 INPUT_SENTENCE = "Ticket ID: 1188, Issue: something wrong with printer"
 
 TICKETS = [
-    "Ticket ID: 101, Issue: Unable to connect to the company VPN, Solution: Restart the VPN client and ensure the network settings are correctly configured.",
+    "Ticket ID: 1002, Issue: Unable to connect to the company VPN, Solution: Restart the VPN client and ensure the network settings are correctly configured.",
     "Ticket ID: 102, Issue: Email not syncing on mobile device, Solution: Remove the email account from the device and add it again, ensuring the correct server settings are used.",
     "Ticket ID: 103, Issue: Application crashes on startup, Solution: Update the application to the latest version and clear the cache.",
     "Ticket ID: 104, Issue: Slow internet connection in the office, Solution: Restart the router and switch, and ensure no background applications are consuming excessive bandwidth.",
